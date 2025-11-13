@@ -29,9 +29,9 @@ class DinoV2Backbone(Backbone):
     def __init__(self, model_name):
         super(DinoV2Backbone, self).__init__()
 
-
         # in gazelle/backbone.py
-        self.model = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitl14', trust_repo=True)
+        self.model = torch.hub.load('facebookresearch/dinov2', model_name, trust_repo=True)
+        self.embed_dim = getattr(self.model, "embed_dim", None)
 
 
     def forward(self, x):

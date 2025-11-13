@@ -49,8 +49,16 @@ from gazelle.model import get_gazelle_model
 
 # ---- Configuration ---------------------------------------------------------
 # Keep model + checkpoint consistent: use vitb14_inout with vitb14 weights
-MODEL_NAME = "gazelle_dinov2_vitl14_inout"
-CHECKPOINT = "./checkpoints/gazelle_dinov2_vitl14.pt" 
+#MODEL_NAME = "gazelle_dinov2_vitl14_inout"
+#CHECKPOINT = "./checkpoints/gazelle_dinov2_vitl14.pt" 
+
+# --- choose the smaller backbone ---
+MODEL_NAME = "gazelle_dinov2_vitb14"
+
+# --- point to the matching checkpoint (pick ONE of these patterns) ---
+CHECKPOINT = str((PROJ / "gazelle_dinov2_vitb14.pt").resolve())   
+
+
 
 CAM_INDEX = 0
 ALPHA = 0.6
@@ -76,8 +84,11 @@ cap = cv2.VideoCapture(CAM_INDEX, cv2.CAP_ANY)
 if not cap.isOpened():
     raise RuntimeError(f"Could not open webcam index {CAM_INDEX}")
 
-cap.set(cv2.CAP_PROP_FRAME_WIDTH,  1280)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+#cap.set(cv2.CAP_PROP_FRAME_WIDTH,  1280)
+#cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH,  640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+
 cap.set(cv2.CAP_PROP_FPS,          30)
 
 print(f"Device: {device} | CUDA available: {torch.cuda.is_available()}")
